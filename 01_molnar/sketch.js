@@ -30,12 +30,12 @@ function draw() {
   // Get the overall volume (between 0 and 1.0)
   //vol = mic.getLevel();
 	//console.log(vol);
-	vol = 3;
+	vol = 1;
 	var amp;
 	var par;
-	let dist = 30;
+	let dist = 10;
   var vertices;
-	for (i = 1; i < 5; i++) {
+	for (i = 1; i < 30; i++) {
 
 		var corners = [createVector(width/2 + i*dist, height/2 + i*dist),
 										createVector(width/2 - i*dist, height/2 + i*dist),
