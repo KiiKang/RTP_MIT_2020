@@ -4,31 +4,36 @@
 // Week 01 __ Vera Molnar, Hypertransformations
 
 var isLoop = 'True';
+var amp;
 
 function setup() {
-  createCanvas(800, 800);
+  cnv = createCanvas(800, 800);
 }
 
 function draw() {
-  frameRate(10);
+  frameRate(20);
 	background(255);
 	noStroke();
 	noFill();
   const cen = createVector(width/2,height/2);
   const dist = 20;
+
+  //fluctuate amplitude
+  vol = (sin(PI*frameCount/20)-1)/2;
+
 	for (i = 15; i > 0 ; i--) {
     if(i % 2 == 0) {
-      fill(58,77,92);
+      fill(77,56,125);
     } else {
-      fill(88,115,136);
+      fill(58);
     }
-    cen.x += random(-dist/2,dist/2);
-    cen.y += random(-dist/2,dist/2);
+    cen.x += random(-dist/2*vol,dist/2*vol);
+    cen.y += random(-dist/2*vol,dist/2*vol);
 		var corners = [createVector(i*dist, i*dist),
 										createVector(-i*dist, i*dist),
 										createVector(-i*dist, -i*dist),
 			  						createVector(i*dist, -i*dist)];
-    let randAngle = random(-PI/20,0);
+    let randAngle = random(-PI/20*vol,PI/20*vol);
     for(j = 0; j < 4; j++){
       corners[j].rotate(randAngle);
     }
@@ -44,7 +49,6 @@ function draw() {
   }
 }
 
-
 function vibrate(v1,v2) {
   let vecOut = [v1];
   let par = [];
@@ -59,8 +63,7 @@ function vibrate(v1,v2) {
   //sort random numbers
   par = sort(par);
   for(j = 0; j < par.length; j++){
-    let amp = randomGaussian(0,vec.mag()/50);
-    console.log(amp);
+    let amp = randomGaussian(0,vec.mag()/50*vol);
     let vecAdd = createVector(amp*vecNormal.x+par[j]*vec.x+v1.x,amp*vecNormal.y+par[j]*vec.y+v1.y);
     vecOut.push(vecAdd);
   }
