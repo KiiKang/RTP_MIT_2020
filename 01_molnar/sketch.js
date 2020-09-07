@@ -1,90 +1,85 @@
 
 // Kii Kang
 // MAS.S68 Recreating the Past
-// Week 01 __ Vera Molnar
+// Week 01 __ Vera Molnar, Hypertransformations
 
-// ... changes evenly at every line, proceeding from left to right.
-// Using an increasingly random process, the lines-built up
-// with regular sequences going up and down with a tilt of
-// 110-120 degrees-become more and more chaotic as they advance to the right
-
-
-let mic;
-var i;
-var vol;
+var isLoop = 'True';
 
 function setup() {
-  createCanvas(900, 900);
-background(255);
-  // create an audio input
-	//mic = new p5.AudioIn();
-	// start the audio input
-  //mic.start();
+  createCanvas(800, 800);
 }
 
 function draw() {
-	stroke(0);
+  frameRate(10);
 	background(255);
-	strokeWeight(1);
+	noStroke();
 	noFill();
-  // Get the overall volume (between 0 and 1.0)
-  //vol = mic.getLevel();
-	//console.log(vol);
-	vol = 1;
-	var amp;
-	var par;
-	let dist = 10;
-  var vertices;
-	for (i = 1; i < 30; i++) {
-
-		var corners = [createVector(width/2 + i*dist, height/2 + i*dist),
-										createVector(width/2 - i*dist, height/2 + i*dist),
-										createVector(width/2 - i*dist, height/2 - i*dist),
-			  						createVector(width/2 + i*dist, height/2 - i*dist)];
-
+  const cen = createVector(width/2,height/2);
+  const dist = 20;
+	for (i = 15; i > 0 ; i--) {
+    if(i % 2 == 0) {
+      fill(58,77,92);
+    } else {
+      fill(88,115,136);
+    }
+    cen.x += random(-dist/2,dist/2);
+    cen.y += random(-dist/2,dist/2);
+		var corners = [createVector(i*dist, i*dist),
+										createVector(-i*dist, i*dist),
+										createVector(-i*dist, -i*dist),
+			  						createVector(i*dist, -i*dist)];
+    let randAngle = random(-PI/20,0);
+    for(j = 0; j < 4; j++){
+      corners[j].rotate(randAngle);
+    }
+    for(j = 0; j < 4; j++){
+      corners[j].add(cen);
+    }
 		beginShape();
-		//
-		vertex(corners[0].x,corners[0].y);
+    vibrate(corners[0],corners[1]);
+    vibrate(corners[1],corners[2]);
+    vibrate(corners[2],corners[3]);
+    vibrate(corners[3],corners[0]);
+    endShape();
+  }
+}
 
-		par = [];
-		for(let j = 0; j < random(0,5*i); j++){
-			par.push(random(-i*dist,i*dist));
-		}
-		par.sort();
 
-		for(j = 0; j < par.length; j++){
-			amp = randomGaussian(0,vol*i);
-			vertex(width/2 + par[-j], height/2 + i*dist + amp);
-		}
-		//
-		vertex(corners[1].x,corners[1].y);
+function vibrate(v1,v2) {
+  let vecOut = [v1];
+  let par = [];
+  let vxOut = [];
+  let vec = createVector(v2.x-v1.x,v2.y-v1.y);
+  let vecNormal = createVector(v2.y-v1.y,v2.x-v1.x);
+  vecNormal.normalize();
+  //create random numbers of a random number
+  for(j = 0; j< random(0,i); j++){
+    par.push(random(0,1));
+  }
+  //sort random numbers
+  par = sort(par);
+  for(j = 0; j < par.length; j++){
+    let amp = randomGaussian(0,vec.mag()/50);
+    console.log(amp);
+    let vecAdd = createVector(amp*vecNormal.x+par[j]*vec.x+v1.x,amp*vecNormal.y+par[j]*vec.y+v1.y);
+    vecOut.push(vecAdd);
+  }
+  vecOut.push(v2);
+  for (j = 0; j < vecOut.length; j++){
+    vertex(vecOut[j].x,vecOut[j].y);
+  }
+}
 
-		par = [];
-		for(let j = 0; j < random(0,5*i); j++){
-			par.push(random(-i*dist,i*dist));
-		}
-		par.sort();
-
-		for(j = 0; j < par.length; j++){
-			amp = randomGaussian(0,vol*i);
-			vertex(width/2 - i*dist + amp, height/2 + par[-j]);
-		}
-		//
-		vertex(corners[2].x,corners[2].y);
-
-		par = [];
-		for(let j = 0; j < random(0,i); j++){
-			par.push(random(-i*dist,i*dist));
-		}
-		par.sort();
-		par.reverse();
-		for(j = 0; j < par.length; j++){
-			amp = randomGaussian(0,vol*i);
-			vertex(width/2  + par[j] , height/2 - i*dist + amp);
-		}
-		vertex(corners[3].x,corners[3].y);
-		endShape();
-	var dev = 15;
-	}
-	frameRate(10);
+//stop and resume when mouse clicked
+function mouseClicked() {
+  if(isLoop == 'True'){
+    isLoop = 'False';
+  } else {
+    isLoop = 'True';
+  }
+  if(isLoop == 'True'){
+    loop();
+  } else {
+    noLoop();
+  }
 }
