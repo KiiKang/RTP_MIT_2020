@@ -29,7 +29,7 @@ function draw() {
     }
     cen.x += random(-dist/2*vol,dist/2*vol);
     cen.y += random(-dist/2*vol,dist/2*vol);
-		var corners = [createVector(i*dist, i*dist), createVector(-i*dist, i*dist), createVector(-i*dist, -i*dist), createVector(i*dist, -i*dist)];
+    var corners = [createVector(i*dist, i*dist), createVector(-i*dist, i*dist), createVector(-i*dist, -i*dist), createVector(i*dist, -i*dist)];
     let randAngle = random(-PI/20*vol,PI/20*vol);
     for(j = 0; j < 4; j++){
       corners[j].rotate(randAngle);
