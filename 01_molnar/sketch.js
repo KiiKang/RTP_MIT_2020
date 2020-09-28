@@ -1,10 +1,9 @@
 
-// Kii Kang
-// MAS.S68 Recreating the Past
+// Kii Kang __ MIT SA+P MS Design and Computation Group
+// 2020 Fall __ MAS.S68 Recreating the Past
 // Week 01 __ Vera Molnar, Hypertransformations
 
 var isLoop = 'True';
-var amp;
 
 function setup() {
   cnv = createCanvas(800, 800);
@@ -12,28 +11,24 @@ function setup() {
 
 function draw() {
   frameRate(20);
-	background(255);
-	noStroke();
+	background(255,80);
+	strokeWeight(0.5);
 	noFill();
   const cen = createVector(width/2,height/2);
   const dist = 20;
 
   //fluctuate amplitude
-  vol = (sin(PI*frameCount/20)-1)/2;
+  vol = (sin(PI*frameCount/20)-1)/5;
 
 	for (i = 15; i > 0 ; i--) {
-    if(i % 2 == 0) {
-      fill(77,56,125);
-    } else {
-      fill(58);
-    }
-    cen.x += random(-dist/2*vol,dist/2*vol);
-    cen.y += random(-dist/2*vol,dist/2*vol);
+
+    cen.x += random(-dist/2*vol,dist/2*vol)/2;
+    cen.y += random(-dist/2*vol,dist/2*vol)/2;
 		var corners = [createVector(i*dist, i*dist),
 										createVector(-i*dist, i*dist),
 										createVector(-i*dist, -i*dist),
 			  						createVector(i*dist, -i*dist)];
-    let randAngle = random(-PI/20*vol,PI/20*vol);
+    let randAngle = random(-PI/40*vol,PI/20*vol);
     for(j = 0; j < 4; j++){
       corners[j].rotate(randAngle);
     }
@@ -73,7 +68,7 @@ function vibrate(v1,v2) {
   }
 }
 
-//stop and resume when mouse clicked
+//pause and resume when mouse clicked
 function mouseClicked() {
   if(isLoop == 'True'){
     isLoop = 'False';
