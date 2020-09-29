@@ -8,7 +8,6 @@ let aSlider, bSlider, ptSlider;
 function setup() {
   createCanvas(900, 1240);
   textSize(15);
-  fill(1);
   aSlider = createSlider(1, 20, 5);
   aSlider.position(15, 15);
   bSlider = createSlider(1, 20, 4);
@@ -26,6 +25,10 @@ function draw() {
   const amp = ampSlider.value();
   console.log(a,b,pointNo,amp)
   noStroke();
+  text('a', aSlider.x * 2 + aSlider.width, 35);
+  text('b', bSlider.x * 2 + bSlider.width, 65);
+  text('pointNo', ptSlider.x * 2 + ptSlider.width, 95);
+  text('noise amp', ptSlider.x * 2 + ampSlider.width, 125);
 
   background(216,119,48,80);
   noFill();
@@ -69,4 +72,5 @@ function draw() {
     endShape();
 
   }
+
 }

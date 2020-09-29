@@ -19,13 +19,16 @@ function setup() {
 }
 
 function draw() {
-  background(216,119,48);
+  background(100);
   const a = aSlider.value();
   const b = bSlider.value();
   const pointNo = ptSlider.value();
   const amp = ampSlider.value();
   console.log(a,b,pointNo,amp)
-
+  //text('a', aSlider.x * 2 + aSlider.width, 35);
+  //text('b', bSlider.x * 2 + bSlider.width, 65);
+  //text('pointNo', ptSlider.x * 2 + ptSlider.width, 95);
+  //text('noise amp', ptSlider.x * 2 + ampSlider.width, 125);
   noFill();
   let dt = 2*PI/pointNo;
   let dia = 10;
@@ -36,11 +39,11 @@ function draw() {
   for(j=0;j<4;j++){
     stroke((-1)**j*100+140);
     if (j == 0){
-      strokeW = 45;
+      strokeW = 40;
     } else if (j == 1){
-      strokeW = 34;
+      strokeW = 30;
     } else if (j == 2){
-      strokeW = 24;
+      strokeW = 20;
     } else {
       strokeW = 5;
     }
@@ -61,7 +64,7 @@ function draw() {
       }
       x = x + noise_*dy;
       y = y - noise_*dx;
-      curveVertex(x,y,(-1)**i/100);
+      curveVertex(x,y,i/2000);
     }
     curveVertex((A-margin)*sin(delta) + A, B, 0);
     endShape();
